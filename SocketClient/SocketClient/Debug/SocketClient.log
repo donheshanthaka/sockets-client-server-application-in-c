@@ -1,2 +1,5 @@
 ﻿  SocketClient.c
+D:\Projects\C\sockets\ServerClient_OneClient\SocketClient\SocketClient\SocketClient.c(15,36): warning C4047: 'initializing': 'unsigned long' differs in levels of indirection from 'unsigned short [14]'
+D:\Projects\C\sockets\ServerClient_OneClient\SocketClient\SocketClient\SocketClient.c(42,22): warning C4047: 'function': 'PCWSTR' differs in levels of indirection from 'unsigned long'
+D:\Projects\C\sockets\ServerClient_OneClient\SocketClient\SocketClient\SocketClient.c(42,20): warning C4024: 'InetPtonW': different types for formal and actual parameter 2
   SocketClient.vcxproj -> D:\Projects\C\sockets\ServerClient_OneClient\SocketClient\Debug\SocketClient.exe

@@ -12,6 +12,8 @@
 
 #define PORT 19999
 
+unsigned long IP = L"192.165.1.101"; // add your IPV4 address inside the quotes
+
 int main() {
 
 	// Initiate the socket environment
@@ -37,7 +39,7 @@ int main() {
 
 	srv.sin_family = AF_INET;
 	//srv.sin_addr.s_addr = inet_addr("192.168.1.100");
-	InetPton(AF_INET, L"192.168.1.100", &srv.sin_addr.s_addr);
+	InetPton(AF_INET, IP, &srv.sin_addr.s_addr);
 	srv.sin_port = htons(PORT); // using htons to convert into network byte order
 	memset(&(srv.sin_zero), 0, 8);
 
