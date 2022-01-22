@@ -66,6 +66,7 @@ int main(){
 	char sBuff[1024] = {0,};
 
 	while (1) {
+		memset(sBuff, 0, 1024);
 		nReturn = recv(nClient, sBuff, 1024, 0);
 		if (nClient < 0) {
 			printf("Recieving message failed at port: %d\n", errno);

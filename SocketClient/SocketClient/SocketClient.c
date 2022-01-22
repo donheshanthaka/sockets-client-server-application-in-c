@@ -37,7 +37,7 @@ int main() {
 
 	srv.sin_family = AF_INET;
 	//srv.sin_addr.s_addr = inet_addr("192.168.1.100");
-	InetPton(AF_INET, (PCWSTR)("192.168.1.100"), &srv.sin_addr.s_addr);
+	InetPton(AF_INET, L"192.168.1.100", &srv.sin_addr.s_addr);
 	srv.sin_port = htons(PORT); // using htons to convert into network byte order
 	memset(&(srv.sin_zero), 0, 8);
 
@@ -46,6 +46,7 @@ int main() {
 		printf("Connection to the server failed: %d\n", errno);
 		return -1;
 	}
+
 	// if connected, keep sending messages
 	char sBuff[1024] = { 0, };
 	while (1) {
@@ -53,6 +54,7 @@ int main() {
 		printf("Enter the message: ");
 		fgets(sBuff, 1023, stdin);
 		send(nSocket, sBuff, strlen(sBuff), 0);
+
 	}
 
 	return 0;
