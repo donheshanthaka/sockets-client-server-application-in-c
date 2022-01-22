@@ -1,18 +1,18 @@
 /*
 	C implenetation of a simple server client application that handles a single client using windows sockets API
-	This file contains the server side code
+	This file contains the client side code
 */
 
 #include <stdio.h>
-//#include <winsock.h>
 #include <stdlib.h>
 #include <WinSock2.h>
+#include <WS2tcpip.h>
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
 #define PORT 19999
 
-int main(){
+int main() {
 
 	// Initiate the socket environment
 	WSADATA w;
@@ -20,6 +20,7 @@ int main(){
 
 	struct sockaddr_in srv; // make sure to have strcut in front when initializing sockaddr_in
 
+	// Initializing the library
 	nReturn = WSAStartup(MAKEWORD(2, 2), &w);
 	if (nReturn < 0) {
 		printf("Initialization failed on socket library!\n");
@@ -27,7 +28,6 @@ int main(){
 	}
 
 	// open a socket - listern socket that will listen on a port for incomming connections from the client
-
 	int nSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (nSocket < 0) {
 		// errno is a system global variable which gets updated with the last API call return value
@@ -36,42 +36,23 @@ int main(){
 	}
 
 	srv.sin_family = AF_INET;
-	srv.sin_addr.s_addr = INADDR_ANY;
-	srv.sin_port = htons(PORT);
+	//srv.sin_addr.s_addr = inet_addr("192.168.1.100");
+	InetPton(AF_INET, (PCWSTR)("192.168.1.100"), &srv.sin_addr.s_addr);
+	srv.sin_port = htons(PORT); // using htons to convert into network byte order
 	memset(&(srv.sin_zero), 0, 8);
 
-	// binding the socket
-	nReturn = bind(nSocket, (struct sockaddr*)&srv, sizeof(srv));
+	nReturn = connect(nSocket, (struct sockaddr*) &srv, sizeof(srv));
 	if (nReturn < 0) {
-		printf("Binding failed at port: %d\n", errno);
+		printf("Connection to the server failed: %d\n", errno);
 		return -1;
 	}
-
-	// listening for incoming connection 
-	nReturn = listen(nSocket, 1);
-	if (nReturn < 0) {
-		printf("Listening failed at port: %d\n", errno);
-		return -1;
-	}
-
-	// through the listner socket, listening for incoming connection and once found communication will be maintained in a new socket
-	int nClient = 0;
-	int addrelen = sizeof(srv);
-	nClient = accept(nSocket, (struct sockaddr*)&srv, &addrelen);
-	if (nClient < 0) {
-		printf("Accepting client failed: %d\n", errno);
-		return -1;
-	}
-
-	char sBuff[1024] = {0,};
-
+	// if connected, keep sending messages
+	char sBuff[1024] = { 0, };
 	while (1) {
-		nReturn = recv(nClient, sBuff, 1024, 0);
-		if (nClient < 0) {
-			printf("Recieving message failed at port: %d\n", errno);
-			return -1;
-		}
-		printf("Message recievd from client: %s\n", sBuff);
+		Sleep(2000);
+		printf("Enter the message: ");
+		fgets(sBuff, 1023, stdin);
+		send(nSocket, sBuff, strlen(sBuff), 0);
 	}
 
 	return 0;
