@@ -3,7 +3,7 @@ This is an implementation of a simple client server application in c that handle
 
 Instruction:
 
-* Make sure to change the IP variable inside the client code to your IPV4 address.
+* Make sure to change the IP variable inside the client code to server IPV4 address.
 eg: unsigned long IP = "192.165.1.101";
 
 * Run the server side code first and then client to initialize the connection.
